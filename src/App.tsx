@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
-import { AreaChart, Area, XAxis, YAxis, Tooltip, Legend } from 'recharts';
-import {type ChartConfig, ChartContainer, ChartLegend, ChartLegendContent} from "@/components/ui/chart";
+import { Card, CardContent } from './components/ui/card.tsx';
+import { Slider } from './components/ui/slider';
+import { Label } from './components/ui/label';
+import { Button } from './components/ui/button';
+import {type ChartConfig, ChartContainer} from "./components/ui/chart";
+import { AreaChart, Area, XAxis, YAxis} from 'recharts';
 
 const WIDTH = 800;
 const HEIGHT = 740;
@@ -176,7 +176,7 @@ export default function ParticleSim() {
     const [particles, setParticles] = useState(() =>
         initialState(PARTICLE_COUNT, initialInfected),
     );
-    const [history, setHistory] = useState<any[]>([]);
+    const [history, setHistory] = useState([]);
     const [rt, setRt] = useState(0);
     const [maxRt, setMaxRt] = useState(0);
 
@@ -509,8 +509,7 @@ export default function ParticleSim() {
                             infectedInfectionCountsRef.current.delete(i);
                             continue;
                         }
-                        const cx = Math.floor(p.x / cellSize);
-                        const cy = Math.floor(p.y / cellSize);
+
                         const relCells = getNearbyCellCoords(p.x, p.y, infectionRadius, cellSize);
                         for (const [nx, ny] of relCells) {
                             const key = `${community}:${nx},${ny}`;
@@ -624,6 +623,7 @@ export default function ParticleSim() {
                 if (p.quarantined) counts.quarantined++;
                 else counts[p.status]++;
             }
+            // @ts-expect-error no clue why
             setHistory((prev) => [
                 ...prev,
                 { time: timeRef.current, ...counts },
@@ -679,35 +679,35 @@ export default function ParticleSim() {
                     <CardContent className="space-y-2 pt-4 text-sm">
                         <div>
                             <Label className="py-4">Initial Infected: {initialInfected}</Label>
-                            <Slider min={1} max={20} step={1} value={[initialInfected]} onValueChange={([v]) => setInitialInfected(v)} />
+                            <Slider min={1} max={20} step={1} value={[initialInfected]} onValueChange={([v]:[never]) => setInitialInfected(v)} />
                         </div>
                         <div>
                             <Label className="py-4">Incubation Period: {incubationPeriod}</Label>
-                            <Slider min={10} max={100} step={1} value={[incubationPeriod]} onValueChange={([v]) => setIncubationPeriod(v)} />
+                            <Slider min={10} max={100} step={1} value={[incubationPeriod]} onValueChange={([v]:[never]) => setIncubationPeriod(v)} />
                         </div>
                         <div>
                             <Label className="py-4">
                                 Death Rate (Overall): {deathRate.toFixed(2)}
                             </Label>
-                            <Slider min={0} max={1} step={0.01} value={[deathRate]} onValueChange={([v]) => setDeathRate(v)} />
+                            <Slider min={0} max={1} step={0.01} value={[deathRate]} onValueChange={([v]:[never]) => setDeathRate(v)} />
                         </div>
                         <div>
                             <Label className="py-4">Infection Radius: {infectionRadius}</Label>
-                            <Slider min={5} max={40} step={1} value={[infectionRadius]} onValueChange={([v]) => setInfectionRadius(v)} />
+                            <Slider min={5} max={40} step={1} value={[infectionRadius]} onValueChange={([v]:[never]) => setInfectionRadius(v)} />
                         </div>
                         <div>
                             <Label className="py-4">
                                 Infection Probability: {infectionProbability.toFixed(2)}
                             </Label>
-                            <Slider min={0} max={1} step={0.01} value={[infectionProbability]} onValueChange={([v]) => setInfectionProbability(v)} />
+                            <Slider min={0} max={1} step={0.01} value={[infectionProbability]} onValueChange={([v]:[never]) => setInfectionProbability(v)} />
                         </div>
                         <div>
                             <Label className="py-4">Recovery Time: {recoveryTime}</Label>
-                            <Slider min={100} max={300} step={1} value={[recoveryTime]} onValueChange={([v]) => setRecoveryTime(v)} />
+                            <Slider min={100} max={300} step={1} value={[recoveryTime]} onValueChange={([v]:[never]) => setRecoveryTime(v)} />
                         </div>
                         <div>
                             <Label className="py-4">Speed: {speed}x</Label>
-                            <Slider min={1} max={10} step={1} value={[speed]} onValueChange={([v]) => setSpeed(v)} />
+                            <Slider min={1} max={10} step={1} value={[speed]} onValueChange={([v]:[never]) => setSpeed(v)} />
                         </div>
                         <div>
                             <Label className="py-4">
@@ -721,7 +721,7 @@ export default function ParticleSim() {
                                     <Label className="py-4">
                                         Quarantine Effectiveness: {quarantineEffectiveness}%
                                     </Label>
-                                    <Slider min={0} max={100} step={1} value={[quarantineEffectiveness]} onValueChange={([v]) => setQuarantineEffectiveness(v)} />
+                                    <Slider min={0} max={100} step={1} value={[quarantineEffectiveness]} onValueChange={([v]:[never]) => setQuarantineEffectiveness(v)} />
                                 </div>
                             )}
                         </div>
